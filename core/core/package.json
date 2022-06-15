@@ -23,7 +23,7 @@
 		"access": "public"
 	},
 	"devDependencies": {
-		"@abandon-cli/utils": "file:../../utils/utils",
+		"@abandon-cli/log": "file:../../utils/log",
 		"import-local": "^3.1.0",
 		"npmlog": "^6.0.2"
 	},

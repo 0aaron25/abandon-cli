@@ -1,8 +1,15 @@
 "use strict"
 
-module.exports = core
+const log = require("@abandon-cli/log")
 
 function core() {
 	// TODO
-	console.log("core")
+	checkPkgVersion()
 }
+
+const pkg = require("../package")
+function checkPkgVersion() {
+	log.notice("version", pkg.version)
+}
+
+module.exports = core
