@@ -1,0 +1,31 @@
+{
+	"name": "@abandon-cli/core",
+	"version": "1.0.3",
+	"description": "abandon cli core",
+	"author": "liangjiahao <562330458@qq.com>",
+	"homepage": "",
+	"license": "ISC",
+	"main": "",
+	"directories": {
+		"lib": "lib",
+		"test": "__tests__"
+	},
+	"files": [
+		"lib"
+	],
+	"bin": {
+		"abandon": "bin/index.js"
+	},
+	"scripts": {
+		"test": "echo \"Error: run tests from root\" && exit 1"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"devDependencies": {
+		"@abandon-cli/utils": "file:../../utils/utils",
+		"import-local": "^3.1.0",
+		"npmlog": "^6.0.2"
+	},
+	"gitHead": "04c54cf841321df7d460bc1e849e674d36c1f8fa"
+}

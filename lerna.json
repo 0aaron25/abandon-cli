@@ -1,6 +1,5 @@
 {
-	"packages": [
-		"packages/*"
-	],
-	"version": "1.0.3"
+	"packages": ["core/*", "models/*", "utils/*", "commands/*"],
+	"version": "1.0.3",
+	"ignoreChanges": ["**/__fixtures__/**", "**/__tests__/**", "**/*.md"]
 }
