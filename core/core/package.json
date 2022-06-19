@@ -17,15 +17,24 @@
 		"abandon": "bin/index.js"
 	},
 	"scripts": {
-		"test": "echo \"Error: run tests from root\" && exit 1"
+		"build": "vite build"
 	},
 	"publishConfig": {
 		"access": "public"
 	},
 	"devDependencies": {
 		"@abandon-cli/log": "file:../../utils/log",
+		"@babel/core": "^7.18.5",
+		"@babel/preset-env": "^7.18.2",
+		"@rollup/plugin-babel": "^5.3.1",
+		"colors": "^1.4.0",
 		"import-local": "^3.1.0",
-		"npmlog": "^6.0.2"
+		"npmlog": "^6.0.2",
+		"path-exists": "^4.0.0",
+		"root-check": "^1.0.0",
+		"semver": "^7.3.7",
+		"user-home": "^3.0.0",
+		"vite": "^2.9.12"
 	},
 	"gitHead": "04c54cf841321df7d460bc1e849e674d36c1f8fa"
 }
