@@ -23,19 +23,21 @@
 		"access": "public"
 	},
 	"devDependencies": {
-		"@abandon-cli/log": "file:../../utils/log",
 		"@abandon-cli/get-npm-info": "file:../../utils/get-npm-info",
+		"@abandon-cli/log": "file:../../utils/log",
+		"@abandon-cli/init": "file:../../commands/init",
+		"@abandon-cli/exec": "file:../exec",
 		"@babel/core": "^7.18.5",
 		"@babel/preset-env": "^7.18.2",
 		"@rollup/plugin-babel": "^5.3.1",
 		"colors": "^1.4.0",
 		"dotenv": "^16.0.1",
 		"import-local": "^3.1.0",
-		"minimist": "^1.2.6",
 		"npmlog": "^6.0.2",
 		"path-exists": "^4.0.0",
 		"root-check": "^1.0.0",
 		"semver": "^7.3.7",
+		"terser": "^5.14.1",
 		"user-home": "^3.0.0",
 		"vite": "^2.9.12"
 	},

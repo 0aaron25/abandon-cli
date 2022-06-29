@@ -1,0 +1,39 @@
+{
+	"name": "@abandon-cli/package",
+	"version": "1.0.0",
+	"description": "abandon cli npm modules",
+	"author": "liangjiahao <562330458@qq.com>",
+	"homepage": "https://github.com/0aaron25/abandon-cli#readme",
+	"license": "ISC",
+	"main": "lib/index.js",
+	"directories": {
+		"lib": "lib",
+		"test": "__tests__"
+	},
+	"files": [
+		"lib"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/0aaron25/abandon-cli.git"
+	},
+	"scripts": {
+		"test": "echo \"Error: run tests from root\" && exit 1"
+	},
+	"bugs": {
+		"url": "https://github.com/0aaron25/abandon-cli/issues"
+	},
+	"dependencies": {
+		"@abandon-cli/format-path": "file:../../utils/format-path",
+		"@abandon-cli/get-npm-info": "file:../../utils/get-npm-info",
+		"@abandon-cli/utils": "file:../../utils/utils",
+		"npminstall": "^6.4.0"
+	},
+	"devDependencies": {
+		"path-exists": "^4.0.0",
+		"pkg-dir": "^5.0.0"
+	}
+}
