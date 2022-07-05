@@ -22,6 +22,7 @@ async function core() {
 
 //检查是否需要更新
 async function checkGlobalUpdate() {
+	log.verbose("checkGlobalUpdate")
 	const { getNpmSemverVersion } = require("@abandon-cli/get-npm-info")
 	const baseVersion = pkg.version
 	const pkgName = pkg.name
@@ -38,6 +39,7 @@ async function checkGlobalUpdate() {
 
 //检查环境变量
 function checkEnv() {
+	log.verbose("checkEnv")
 	const dotEnvPath = path.resolve(userHome, ".env")
 	if (pathExists(dotEnvPath)) {
 		require("dotenv").config({
@@ -64,6 +66,7 @@ function createDefaultConfig() {
 
 //检查是否有主目录
 function checkUserHome() {
+	log.verbose("checkUserHome")
 	if (!userHome || !pathExists(userHome)) {
 		throw new Error(color.red(`当前登录用户主目录不存在`))
 	}
@@ -71,20 +74,9 @@ function checkUserHome() {
 
 //检查是否用root账户
 function checkRoot() {
+	log.verbose("checkRoot")
 	const rootCheck = require("root-check")
 	rootCheck()
-}
-
-//检查node版本
-function checkNodeVersion() {
-	const currentNodeVersion = process.version
-	const lowestNodeVersion = constants.LOWEST_NODE_VERSION
-
-	if (!semver.gte(currentNodeVersion, lowestNodeVersion)) {
-		throw new Error(
-			color.red(`abandon-cli需要安装v${lowestNodeVersion}版本的node.js`)
-		)
-	}
 }
 
 //检查包版本
@@ -102,9 +94,9 @@ function registerCommand() {
 		.option("-d,--debug", "是否开启调试模式", false)
 
 	program
-		.option("-f,--force", "是否强制初始化文件", false)
 		.description("初始化项目")
-		.command("init <projectName> [options]")
+		.command("init <projectName> [option]")
+		.option("-f,--force", "是否强制初始化文件", false)
 		.action(exec)
 
 	//监听debug模式
@@ -125,7 +117,6 @@ function registerCommand() {
 		const availableCmd = program.commands.map(cmd => cmd.name())
 		if (cmdObj.length > 0) {
 			const unknowedCmd = cmdObj.filter(cmd => !availableCmd.includes(cmd))
-			console.log(unknowedCmd)
 			log.error(color.red(`未知的命令:${unknowedCmd}`))
 		}
 		if (availableCmd.length > 0) {
@@ -141,7 +132,6 @@ function registerCommand() {
 }
 
 async function prepare() {
-	checkNodeVersion()
 	checkPkgVersion()
 	checkRoot()
 	checkUserHome()

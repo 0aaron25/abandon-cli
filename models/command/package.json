@@ -1,7 +1,11 @@
 {
-	"name": "@abandon-cli/init",
+	"name": "@abandon-cli/command",
 	"version": "1.0.0",
-	"description": "abandon cli init",
+	"description": "class command",
+	"keywords": [
+		"class",
+		"command"
+	],
 	"author": "liangjiahao <562330458@qq.com>",
 	"homepage": "https://github.com/0aaron25/abandon-cli#readme",
 	"license": "ISC",
@@ -27,7 +31,8 @@
 		"url": "https://github.com/0aaron25/abandon-cli/issues"
 	},
 	"dependencies": {
-		"@abandon-cli/command": "file:../../models/command",
+		"colors": "^1.4.0",
+		"semver": "^7.3.7",
 		"@abandon-cli/log": "file:../../utils/log"
 	}
 }

@@ -1,9 +1,10 @@
 "use strict"
 const path = require("path")
-const pkgDir = require("pkg-dir").sync
 const npminstall = require("npminstall")
 const { isObject } = require("@abandon-cli/utils")
 const formatPath = require("@abandon-cli/format-path")
+const fse = require("fs-extra")
+const pkgDir = require("pkg-dir").sync
 const pathExists = require("path-exists").sync
 const {
 	getNpmLatestVersion,
@@ -26,28 +27,49 @@ class Package {
 	}
 	get cacheFilePath() {
 		const cacheFilePathPrefix = this.packageName.replace(/\//g, "_")
-		const cacheFilePathPostfix = this.packageName.split("/")[0]
-		const cacheFile = `_${cacheFilePathPrefix}@${this.packageVersion}@${cacheFilePathPostfix}`
+		const cacheFile = `_${cacheFilePathPrefix}@${this.packageVersion}@${this.packageName}`
+		return path.resolve(this.storeDir, cacheFile)
+	}
+	specifyCachePath(pkgVersion) {
+		const cacheFilePathPrefix = this.packageName.replace(/\//g, "_")
+		const cacheFile = `_${cacheFilePathPrefix}@${pkgVersion}@${this.packageName}`
 		return path.resolve(this.storeDir, cacheFile)
 	}
 
 	async exists() {
 		if (this.storeDir) {
 			await this.prepare()
-			console.log(this.cacheFilePath)
-			console.log(pathExists(this.cacheFilePath))
 			return pathExists(this.cacheFilePath)
 		} else {
 			return pathExists(this.targetPath)
 		}
 	}
-	update() {}
+	async update() {
+		await this.prepare()
+		//1.获取最新版本号
+		const lastestVersion = await getNpmLatestVersion(this.packageName)
+		//2.获取最新版本号缓存路径
+		const lastestCacheFile = this.specifyCachePath(lastestVersion)
+		//3.判断最新版本好缓存路径是否存在，如果不存在就下载
+		if (lastestCacheFile && !pathExists(lastestCacheFile)) {
+			await npminstall({
+				root: this.targetPath,
+				storeDir: this.storeDir,
+				registry: getDefaultRegistry(),
+				pkgs: [{ name: this.packageName, version: lastestVersion }],
+			})
+			this.packageVersion = lastestVersion
+		}
+	}
 	async prepare() {
 		//1.获取最新版本号
 		if (this.packageVersion === "latest") {
 			this.packageVersion = await getNpmLatestVersion(this.packageName)
 		}
-		//2.
+		//2.生成缓存路径
+		if (this.storeDir && !pathExists(this.storeDir)) {
+			fse.mkdirpSync(this.storeDir)
+		}
 	}
 	async install() {
 		await this.prepare()
@@ -59,19 +81,25 @@ class Package {
 		})
 	}
 	getRootFilePath() {
-		//1.先获取package.json的所在目录
-		const dir = pkgDir(this.targetPath)
-		if (dir) {
-			//2.读取package.json
-			const pkgPath = path.resolve(dir, "package.json")
-			const pkgFile = require(pkgPath)
-			//3.获取package.json的lib或者main
-			if (pkgFile && pkgFile.main) {
-				//4.路径兼容macos和window
-				return formatPath(path.resolve(dir, pkgFile.main))
+		function _getRootFile(targetPath) {
+			//1.先获取package.json的所在目录
+			const dir = pkgDir(targetPath)
+			if (dir) {
+				//2.读取package.json
+				const pkgPath = path.resolve(dir, "package.json")
+				const pkgFile = require(pkgPath)
+				//3.获取package.json的lib或者main
+				if (pkgFile && pkgFile.main) {
+					//4.路径兼容macos和window
+					return formatPath(path.resolve(dir, pkgFile.main))
+				}
 			}
 		}
-		return null
+		if (this.storeDir) {
+			return _getRootFile(this.cacheFilePath)
+		} else {
+			return _getRootFile(this.targetPath)
+		}
 	}
 }
 
