@@ -69,7 +69,7 @@ class InitCommand extends Command {
 
 		const _processProjectPromt = async () => {
 			//合法跳过输入
-			isValidPkgName && (projectInfo["pkgName"] = this._pkgName)
+			isValidPkgName && (projectInfo["projectName"] = this._pkgName)
 			!isValidPkgName && projectPrompt.push(projectNamePrompt)
 			// 输入版本号
 			projectPrompt.push(projectVersionPromt)
