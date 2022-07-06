@@ -28,6 +28,10 @@
 	},
 	"dependencies": {
 		"@abandon-cli/command": "file:../../models/command",
-		"@abandon-cli/log": "file:../../utils/log"
+		"@abandon-cli/log": "file:../../utils/log",
+		"fs": "0.0.1-security",
+		"fs-extra": "^10.1.0",
+		"inquirer": "^8.1.2",
+		"validate-npm-package-name": "^4.0.0"
 	}
 }
