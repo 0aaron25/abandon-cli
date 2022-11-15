@@ -1,0 +1,47 @@
+{
+	"name": "@abandon-cli/core",
+	"version": "1.2.2",
+	"description": "abandon cli core",
+	"author": "liangjiahao <562330458@qq.com>",
+	"homepage": "",
+	"license": "ISC",
+	"main": "",
+	"directories": {
+		"lib": "lib",
+		"test": "__tests__"
+	},
+	"files": [
+		"lib"
+	],
+	"bin": {
+		"abandon": "bin/index.js"
+	},
+	"scripts": {
+		"debug": "abandon init --debug"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"dependencies": {
+		"@abandon-cli/exec": "file:../exec",
+		"@abandon-cli/get-npm-info": "^1.0.21",
+		"@abandon-cli/init": "file:../../commands/init",
+		"@abandon-cli/log": "^1.0.11",
+		"@babel/core": "^7.18.5",
+		"@babel/preset-env": "^7.18.2",
+		"@rollup/plugin-babel": "^5.3.1",
+		"colors": "^1.4.0",
+		"dotenv": "^16.0.1",
+		"import-local": "^3.1.0",
+		"npmlog": "^6.0.2",
+		"path-exists": "^4.0.0",
+		"root-check": "^1.0.0",
+		"semver": "^7.3.7",
+		"terser": "^5.14.1",
+		"vite": "^2.9.12"
+	},
+	"gitHead": "dc7921e9c97dcd497cbf2c84a83684eee68d3194",
+	"devDependencies": {
+		"@abandon-cli/core": "^1.2.2"
+	}
+}

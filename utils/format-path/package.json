@@ -1,0 +1,34 @@
+{
+	"name": "@abandon-cli/format-path",
+	"version": "1.0.20",
+	"description": "format path from \\xxx to /xxx",
+	"keywords": [
+		"format",
+		"path"
+	],
+	"author": "liangjiahao <562330458@qq.com>",
+	"homepage": "https://github.com/0aaron25/abandon-cli#readme",
+	"license": "ISC",
+	"main": "lib/index.js",
+	"directories": {
+		"lib": "lib",
+		"test": "__tests__"
+	},
+	"files": [
+		"lib"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/0aaron25/abandon-cli.git"
+	},
+	"scripts": {
+		"test": "echo \"Error: run tests from root\" && exit 1"
+	},
+	"bugs": {
+		"url": "https://github.com/0aaron25/abandon-cli/issues"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"gitHead": "dc7921e9c97dcd497cbf2c84a83684eee68d3194"
+}

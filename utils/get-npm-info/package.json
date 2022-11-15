@@ -1,0 +1,40 @@
+{
+	"name": "@abandon-cli/get-npm-info",
+	"version": "1.0.21",
+	"description": "get npm package info ",
+	"author": "liangjiahao <562330458@qq.com>",
+	"homepage": "https://github.com/0aaron25/abandon-cli#readme",
+	"license": "ISC",
+	"main": "lib/index.js",
+	"directories": {
+		"lib": "lib",
+		"test": "__tests__"
+	},
+	"files": [
+		"lib"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/0aaron25/abandon-cli.git"
+	},
+	"scripts": {
+		"test": "echo \"Error: run tests from root\" && exit 1"
+	},
+	"bugs": {
+		"url": "https://github.com/0aaron25/abandon-cli/issues"
+	},
+	"devDependencies": {
+		"axios": "^0.27.2",
+		"semver": "^7.3.7",
+		"url-join": "^4.0.1"
+	},
+	"dependencies": {
+		"axios": "^0.27.2",
+		"semver": "^7.3.7",
+		"url-join": "^4.0.1"
+	},
+	"gitHead": "dc7921e9c97dcd497cbf2c84a83684eee68d3194",
+	"publishConfig": {
+		"access": "public"
+	}
+}

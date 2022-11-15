@@ -1,0 +1,46 @@
+{
+	"name": "@abandon-cli/init",
+	"version": "1.2.2",
+	"description": "abandon cli init",
+	"author": "liangjiahao <562330458@qq.com>",
+	"homepage": "https://github.com/0aaron25/abandon-cli#readme",
+	"license": "ISC",
+	"main": "lib/index.js",
+	"directories": {
+		"lib": "lib",
+		"test": "__tests__"
+	},
+	"files": [
+		"lib"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/0aaron25/abandon-cli.git"
+	},
+	"scripts": {
+		"test": "echo \"Error: run tests from root\" && exit 1"
+	},
+	"bugs": {
+		"url": "https://github.com/0aaron25/abandon-cli/issues"
+	},
+	"dependencies": {
+		"@abandon-cli/command": "^1.0.13",
+		"@abandon-cli/format-path": "file:../../utils/format-path",
+		"@abandon-cli/get-npm-info": "file:../../utils/get-npm-info",
+		"@abandon-cli/log": "^1.0.11",
+		"@abandon-cli/package": "file:../../models/package",
+		"@abandon-cli/request": "file:../../utils/request",
+		"@abandon-cli/utils": "file:../../utils/utils",
+		"ejs": "^3.1.8",
+		"fs-extra": "^10.1.0",
+		"glob": "^8.0.3",
+		"inquirer": "^8.1.2",
+		"md5": "^2.3.0",
+		"semver": "^7.3.7",
+		"validate-npm-package-name": "^4.0.0"
+	},
+	"gitHead": "2ce10ab97aeafff871112e6849602eae4875e825"
+}
