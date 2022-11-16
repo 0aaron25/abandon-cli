@@ -1,6 +1,6 @@
 {
 	"name": "@abandon-cli/deploy",
-	"version": "1.2.2",
+	"version": "1.2.3",
 	"description": "> TODO: description",
 	"author": "liangjiahao <562330458@qq.com>",
 	"homepage": "https://github.com/0aaron25/abandon-cli#readme",
@@ -25,12 +25,12 @@
 	},
 	"dependencies": {
 		"@abandon-cli/command": "^1.0.13",
-		"@abandon-cli/utils": "file:../../utils/utils",
 		"@abandon-cli/log": "file:../../utils/log",
+		"@abandon-cli/utils": "file:../../utils/utils",
 		"@eyunmy/deploy": "^1.0.27",
 		"dotenv": "^16.0.3",
 		"inquirer": "^8.1.2",
-		"pkg-dir": "^5.0.0",
-		"path-exists": "^4.0.0"
+		"path-exists": "^4.0.0",
+		"pkg-dir": "^5.0.0"
 	}
 }

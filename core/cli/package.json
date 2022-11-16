@@ -1,6 +1,6 @@
 {
 	"name": "@abandon-cli/core",
-	"version": "1.2.2",
+	"version": "1.2.3",
 	"description": "abandon cli core",
 	"author": "liangjiahao <562330458@qq.com>",
 	"homepage": "",
@@ -42,6 +42,6 @@
 	},
 	"gitHead": "dc7921e9c97dcd497cbf2c84a83684eee68d3194",
 	"devDependencies": {
-		"@abandon-cli/core": "^1.2.2"
+		"@abandon-cli/core": "^1.2.3"
 	}
 }
