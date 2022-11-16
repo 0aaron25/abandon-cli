@@ -3,6 +3,7 @@
 const Command = require("@abandon-cli/command")
 const log = require("@abandon-cli/log")
 const { spinnerStart, sleep, exec } = require("@abandon-cli/utils")
+const { homedir } = require("os")
 const Package = require("@abandon-cli/package")
 const formatPath = require("@abandon-cli/format-path")
 const fs = require("fs")
@@ -32,7 +33,6 @@ const {
 	projectLoginUserNamePromt,
 	projectLoginCodePromt,
 } = require("./projectPrompt")
-const { homedir } = require("os")
 
 /**
  * 初始化命令
@@ -254,10 +254,10 @@ class InitCommand extends Command {
 		} else {
 			const data = fse.readJSONSync(userInfoStorePath)
 			const currentDate = new Date().getTime()
-			const isExpire = currentDate - data.oldDate >= TOKEN_EXPIRE_TIME
+			let isExpire = currentDate - data.oldDate >= TOKEN_EXPIRE_TIME
 			log.verbose("isExpire", isExpire)
 			if (isExpire) {
-				fse.emptyDirSync(userInfoStorePath)
+				fse.removeSync(userInfoStorePath)
 				userInfo = await inquirer.prompt([
 					projectLoginUserNamePromt,
 					projectLoginPasswordPromt,

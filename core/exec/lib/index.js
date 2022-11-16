@@ -8,6 +8,7 @@ const Package = require("@abandon-cli/package")
 let pkg
 const SETTINGS = {
 	init: "@abandon-cli/init",
+	deploy: "@abandon-cli/deploy",
 }
 const CACHE_DIR = "dependencies"
 

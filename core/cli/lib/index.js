@@ -123,6 +123,8 @@ function registerCommand() {
 		.command("init [projectName] [option]")
 		.option("-f,--force", "是否强制初始化文件", false)
 		.action(exec)
+
+	program.description("初始化项目").command("deploy").action(exec)
 	program.parse(process.argv)
 	if (program.args && program.args.length < 1) {
 		program.outputHelp()
