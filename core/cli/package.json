@@ -23,7 +23,7 @@
 		"access": "public"
 	},
 	"dependencies": {
-		"@abandon-cli/exec": "file:../exec",
+		"@abandon-cli/exec": "^1.2.3",
 		"@abandon-cli/get-npm-info": "^1.0.21",
 		"@abandon-cli/init": "file:../../commands/init",
 		"@abandon-cli/log": "^1.0.11",
