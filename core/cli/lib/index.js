@@ -11,6 +11,10 @@ const constants = require("../lib/const")
 const exec = require("@abandon-cli/exec")
 const program = new Command()
 
+
+
+
+
 /**
  * @description 检查是否需要更新
  */
@@ -87,31 +91,35 @@ function checkPkgVersion() {
  * @description 注册命令
  */
 function registerCommand() {
+	console.log("registerCommand2")
 	program
 		.name(Object.keys(pkg.bin)[0])
-		.version(pkg.version)
+		.version(pkg.version, "-v,--version", "查看包版本")
+		.addHelpCommand(false)
+		.helpOption("-h,--help", "查看帮助文档")
 		.usage("<command> [options]")
-		.option("-p,--targetPath <targetPath>", "是否使用本地文件", "")
-		.option("-d,--debug", "是否开启调试模式", false)
+		.option("-p,--targetPath <targetPath>", "本地文件路径")
+		.option("-d,--debug", "开启调试模式")
 
-	//监听debug模式
 	program.on("option:debug", function () {
-		if (program.debug) {
+		const debug = this.opts().debug
+		if (debug) {
 			process.env.LOG_LEVEL = "verbose"
 		} else {
 			process.env.LOG_LEVEL = "info"
 		}
 		log.level = process.env.LOG_LEVEL
 	})
-	//监听本地文件调试路径
+
 	program.on("option:targetPath", function () {
-		process.env.CLI_TARGET_PATH = program.targetPath
+		process.env.CLI_TARGET_PATH = this.opts().targetPath
 	})
-	//监听未知命令
+
 	program.on("command:*", function (cmdObj) {
-		const availableCmd = program.commands.map(cmd => cmd.name())
+		console.log(cmdObj)
+		const availableCmd = program.commands.map((cmd) => cmd.name())
 		if (cmdObj.length > 0) {
-			const unknowedCmd = cmdObj.filter(cmd => !availableCmd.includes(cmd))
+			const unknowedCmd = cmdObj.filter((cmd) => !availableCmd.includes(cmd))
 			log.error(color.red(`未知的命令:${unknowedCmd}`))
 		}
 		if (availableCmd.length > 0) {
@@ -119,12 +127,14 @@ function registerCommand() {
 		}
 	})
 	program
-		.description("初始化项目")
-		.command("init [projectName] [option]")
+		.command("init [projectName]")
 		.option("-f,--force", "是否强制初始化文件", false)
 		.action(exec)
+	program
+		.command("deploy")
+		.option("-t,--tgz", "是否生成缓存文件", false)
+		.action(exec)
 
-	program.description("初始化项目").command("deploy").action(exec)
 	program.parse(process.argv)
 	if (program.args && program.args.length < 1) {
 		program.outputHelp()

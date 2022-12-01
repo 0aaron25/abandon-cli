@@ -12,7 +12,7 @@ const DEFAULT_TEMPLATE_TYPE = "normal"
 /**
  * 	文件清空的白名单
  */
-const WHITE_LIST_FILE = ["node_modules", ".git"]
+const WHITE_LIST_FILE = ["node_modules", ".git", ".DS_Store"]
 
 /**
  * 	命令合法白名单

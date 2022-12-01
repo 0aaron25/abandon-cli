@@ -85,7 +85,6 @@ class InitCommand extends Command {
 				if (await templatePkg.exists()) {
 					log.info("模版更新成功")
 					this.templatePkg = templatePkg
-					console.log("模版更新成功", this.templatePkg)
 				}
 			}
 		}
@@ -167,7 +166,6 @@ class InitCommand extends Command {
 		const projectInfo = this.projectInfo
 		return new Promise((resolve, reject) => {
 			glob("**/*", options, function (err, files) {
-				console.log(files)
 				if (err) {
 					return reject(err)
 				}
@@ -194,7 +192,6 @@ class InitCommand extends Command {
 	 * @description 安装普通模版
 	 */
 	async installNormalTemplate() {
-		console.log("installNormalTemplate", this.templatePkg)
 		const templatePath = path.resolve(
 			this.templatePkg.cacheFilePath,
 			"template"
@@ -380,12 +377,9 @@ class InitCommand extends Command {
 		}
 
 		const localPath = this.checkLocalPath(process.cwd())
-
-		// log.verbose(localPath)
-
+		// 检查目录是否为空
 		if (!this.isDirEmpty(localPath)) {
 			let isContinueCreate = false
-			//1.询问用户是否需要继续创建
 			if (!this._force) {
 				isContinueCreate = (
 					await inquirer.prompt({
@@ -397,7 +391,6 @@ class InitCommand extends Command {
 				).isContinueCreate
 				if (!isContinueCreate) return
 			}
-			//2.判断用户是否传入了force(同样询问是否清空目录,强制更新)
 			if (isContinueCreate || this._force) {
 				const { isForceUpdate } = await inquirer.prompt({
 					type: "confirm",
@@ -405,7 +398,6 @@ class InitCommand extends Command {
 					default: false,
 					message: "是否确认清空当前目录下的文件?",
 				})
-				//清空当前目录
 				isForceUpdate && fse.emptyDirSync(localPath)
 			}
 		}
@@ -414,7 +406,6 @@ class InitCommand extends Command {
 	async exec() {
 		const { token, uid } = await this.login()
 		const projectInfo = await this.prepare(token, uid)
-		console.log(projectInfo)
 		this.projectInfo = projectInfo
 
 		log.verbose("projectInfo", projectInfo)

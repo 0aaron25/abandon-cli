@@ -32,16 +32,13 @@
 		"@rollup/plugin-babel": "^5.3.1",
 		"colors": "^1.4.0",
 		"dotenv": "^16.0.1",
+		"commander": "^9.4.1",
 		"import-local": "^3.1.0",
 		"npmlog": "^6.0.2",
 		"path-exists": "^4.0.0",
 		"root-check": "^1.0.0",
 		"semver": "^7.3.7",
-		"terser": "^5.14.1",
-		"vite": "^2.9.12"
+		"terser": "^5.14.1"
 	},
-	"gitHead": "dc7921e9c97dcd497cbf2c84a83684eee68d3194",
-	"devDependencies": {
-		"@abandon-cli/core": "^1.2.5"
-	}
+	"gitHead": "dc7921e9c97dcd497cbf2c84a83684eee68d3194"
 }

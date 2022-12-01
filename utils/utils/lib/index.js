@@ -33,7 +33,6 @@ function exec(command, args, options) {
 	return new Promise((resolve, reject) => {
 		const result = execSync(command, args, options)
 		result.on("exit", res => {
-			console.log("exit", res)
 			resolve(res)
 		})
 

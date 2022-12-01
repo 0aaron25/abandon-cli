@@ -9,7 +9,7 @@ const { exec } = require("@abandon-cli/utils")
 const log = require("@abandon-cli/log")
 const { homedir } = require("os")
 const pkgDir = require("pkg-dir").sync
-const DEPLOY_NPM_PKG = "@eyunmy/deploy/lib/deploy.js"
+const DEPLOY_NPM_PKG = "abandon-deploy/lib/deploy.js"
 const pathExists = require("path-exists").sync
 const deployPromt = {
 	name: "type",
@@ -24,6 +24,15 @@ const deployPromt = {
 
 class DeployCommand extends Command {
 	async prepare() {
+		// 生成参数
+		let argumentsString = ""
+		for (let key in this._argv[0]) {
+			if (this._argv[0][key]) {
+				argumentsString += `--${key} `
+			}
+		}
+		console.log(argumentsString)
+
 		const { type } = await inquirer.prompt(deployPromt)
 		const deployPath = path.resolve(
 			pkgDir(__filename),
@@ -69,11 +78,14 @@ class DeployCommand extends Command {
 
 		//执行指令
 		if (userHomeInfo.SERVER_PASSWARD && code) {
-			exec(`echo ${userHomeInfo.SERVER_PASSWARD} | node ${code}`, {
-				cwd: process.cwd(),
-				stdio: "inherit",
-				shell: true,
-			}).then(res => {
+			exec(
+				`echo ${userHomeInfo.SERVER_PASSWARD} | node ${code} ${argumentsString} `,
+				{
+					cwd: process.cwd(),
+					stdio: "inherit",
+					shell: true,
+				}
+			).then((res) => {
 				if (res === 0) {
 					log.notice("浏览器地址:", parsed.URL)
 				}
