@@ -1,6 +1,6 @@
 {
 	"name": "@abandon-cli/core",
-	"version": "1.2.5",
+	"version": "1.2.6",
 	"description": "abandon cli core",
 	"author": "liangjiahao <562330458@qq.com>",
 	"homepage": "",
@@ -23,7 +23,7 @@
 		"access": "public"
 	},
 	"dependencies": {
-		"@abandon-cli/exec": "^1.2.3",
+		"@abandon-cli/exec": "^1.2.6",
 		"@abandon-cli/get-npm-info": "^1.0.21",
 		"@abandon-cli/init": "file:../../commands/init",
 		"@abandon-cli/log": "^1.0.11",
@@ -31,8 +31,8 @@
 		"@babel/preset-env": "^7.18.2",
 		"@rollup/plugin-babel": "^5.3.1",
 		"colors": "^1.4.0",
-		"dotenv": "^16.0.1",
 		"commander": "^9.4.1",
+		"dotenv": "^16.0.1",
 		"import-local": "^3.1.0",
 		"npmlog": "^6.0.2",
 		"path-exists": "^4.0.0",
