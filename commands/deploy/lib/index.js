@@ -39,12 +39,12 @@ class DeployCommand extends Command {
 			"node_modules",
 			DEPLOY_NPM_PKG
 		)
-		let code = [deployPath]
+		let code = deployPath
 		let dotEnvPath = path.resolve(process.cwd(), ".env")
 
 		//判断是否为生产环境
 		if (type == "production") {
-			code.push(type)
+			code += " production"
 			dotEnvPath = path.resolve(process.cwd(), ".env.production")
 		}
 		if (!pathExists(dotEnvPath)) {
@@ -78,6 +78,7 @@ class DeployCommand extends Command {
 
 		//执行指令
 		if (userHomeInfo.SERVER_PASSWARD && code) {
+			console.log(code)
 			exec(
 				`echo ${userHomeInfo.SERVER_PASSWARD} | node ${code} ${argumentsString} `,
 				{
