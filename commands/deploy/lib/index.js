@@ -4,13 +4,15 @@ const inquirer = require("inquirer")
 
 const Command = require("@abandon-cli/command")
 const glob = require("glob")
+const fse = require("fs-extra")
 const path = require("path")
-const { exec } = require("@abandon-cli/utils")
+const { exec, execSync } = require("@abandon-cli/utils")
 const log = require("@abandon-cli/log")
 const { homedir } = require("os")
 const pkgDir = require("pkg-dir").sync
 const DEPLOY_NPM_PKG = "abandon-deploy/lib/deploy.js"
 const pathExists = require("path-exists").sync
+const dotEnv = require("dotenv")
 const deployPromt = {
 	name: "type",
 	message: "请选择发布的环境",
@@ -21,9 +23,13 @@ const deployPromt = {
 		{ name: "正式服", value: "production" },
 	],
 }
-
+const processPath = process.cwd()
+const homeDirPath = homedir()
 class DeployCommand extends Command {
 	async prepare() {
+		//获取本地env文件服务器密码
+		this.checkUserHomeServerPassword()
+
 		// 生成参数
 		let argumentsString = ""
 		for (let key in this._argv[0]) {
@@ -33,31 +39,71 @@ class DeployCommand extends Command {
 		}
 		console.log(argumentsString)
 
+		//获取env文件信息
+		await this.LoadLocalServerInfo()
+
+		//选择服务器
+		await this.selectDeployType()
+
+		//检查是否存在build指令并运行
+		await this.checkNpmBuildCommand()
+
+		//执行指令
+		await this.execCode(this.code, argumentsString)
+	}
+	async checkPathExist(path) {
+		return await fse.pathExists(path)
+	}
+	async checkNpmBuildCommand() {
+		const pkgPath = path.resolve(processPath, "package.json")
+
+		if (!(await this.checkPathExist(pkgPath))) {
+			throw new Error(`${processPath}:package.json文件不存在`)
+		}
+
+		const pkg = require(pkgPath)
+
+		if (pkg.scripts && !pkg.scripts["build"]) {
+			throw new Error(`请在package.json中手动添加build指令`)
+		}
+
+		// 打包文件
+		await exec("npm", ["run", "build"], {
+			cwd: processPath,
+			stdio: "inherit",
+		}).catch((err) => {
+			throw new Error("打包文件失败～")
+		})
+	}
+	loadEnvFile(path) {
+		return dotEnv.config({
+			path,
+		})
+	}
+	async LoadLocalServerInfo() {
+		//获取本地服务器信息
 		const { type } = await inquirer.prompt(deployPromt)
 		const deployPath = path.resolve(
 			pkgDir(__filename),
 			"node_modules",
 			DEPLOY_NPM_PKG
 		)
-		let code = deployPath
-		let dotEnvPath = path.resolve(process.cwd(), ".env")
-
-		//判断是否为生产环境
+		this.code = deployPath
+		this.dotEnvPath = path.resolve(processPath, ".env")
 		if (type == "production") {
-			code += " production"
-			dotEnvPath = path.resolve(process.cwd(), ".env.production")
+			this.code += " production"
+			this.dotEnvPath = path.resolve(processPath, ".env.production")
 		}
-		if (!pathExists(dotEnvPath)) {
-			throw new Error(`${dotEnvPath}不存在`)
+		if (!(await this.checkPathExist(this.dotEnvPath))) {
+			throw new Error(`${this.dotEnvPath}不存在`)
 		}
-
-		//获取env文件信息
-		const { parsed } = require("dotenv").config({
-			path: dotEnvPath,
-		})
+	}
+	async selectDeployType() {
+		const { parsed: localEnvInfo } = this.loadEnvFile(this.dotEnvPath)
+		this.localEnvInfo = localEnvInfo
 		const comfirmPromt = {
 			name: "deploy",
-			message: `部署在服务器路径：${parsed.DEPLOY_PATH}`,
+			message: `部署在服务器路径：${this.localEnvInfo.DEPLOY_PATH}`,
 			default: true,
 			type: "list",
 			choices: [
@@ -70,27 +116,29 @@ class DeployCommand extends Command {
 		if (!deploy) {
 			throw new Error("取消发布")
 		}
-		//获取本地env文件服务器密码
-		const userHomeDevFilePath = path.resolve(homedir(), ".env")
-		const { parsed: userHomeInfo } = require("dotenv").config({
-			path: userHomeDevFilePath,
+	}
+	async execCode(code, argumentsString) {
+		exec(
+			`echo ${this.userHomeInfo.SERVER_PASSWARD} | node ${code} ${argumentsString} `,
+			{
+				cwd: processPath,
+				stdio: "inherit",
+				shell: true,
+			}
+		).then((res) => {
+			if (res === 0) {
+				log.notice("浏览器地址:", this.localEnvInfo.URL)
+			}
 		})
-
-		//执行指令
-		if (userHomeInfo.SERVER_PASSWARD && code) {
-			console.log(code)
-			exec(
-				`echo ${userHomeInfo.SERVER_PASSWARD} | node ${code} ${argumentsString} `,
-				{
-					cwd: process.cwd(),
-					stdio: "inherit",
-					shell: true,
-				}
-			).then((res) => {
-				if (res === 0) {
-					log.notice("浏览器地址:", parsed.URL)
-				}
-			})
+	}
+	checkUserHomeServerPassword() {
+		const userHomeDevFilePath = path.resolve(homeDirPath, ".env")
+		const { parsed: userHomeInfo } = this.loadEnvFile(userHomeDevFilePath)
+		this.userHomeInfo = userHomeInfo
+		if (!userHomeInfo.SERVER_PASSWARD) {
+			throw new Error(
+				`请在${homeDirPath}创建.env文件配置服务器密码,字段名为SERVER_PASSWARD`
+			)
 		}
 	}
 

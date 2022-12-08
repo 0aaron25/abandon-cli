@@ -91,7 +91,6 @@ function checkPkgVersion() {
  * @description 注册命令
  */
 function registerCommand() {
-	console.log("registerCommand2")
 	program
 		.name(Object.keys(pkg.bin)[0])
 		.version(pkg.version, "-v,--version", "查看包版本")

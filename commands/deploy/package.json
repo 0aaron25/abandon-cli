@@ -35,6 +35,8 @@
 		"glob": "^8.0.3",
 		"inquirer": "^8.1.2",
 		"path-exists": "^4.0.0",
-		"pkg-dir": "^5.0.0"
+		"pkg-dir": "^5.0.0",
+		"fs-extra": "^11.1.0",
+		"esbuild-darwin-arm64": "^0.15.18"
 	}
 }
