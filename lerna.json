@@ -1,13 +1,13 @@
 {
-	"packages": [
-		"core/*",
-		"models/*",
-		"utils/*",
-		"commands/*"
-	],
-	"version": "1.2.9",
-	"ignoreChanges": [
-		"**/__fixtures__/**",
-		"**/__tests__/**"
-	]
+  "packages": [
+    "core/*",
+    "models/*",
+    "utils/*",
+    "commands/*"
+  ],
+  "version": "1.2.10",
+  "ignoreChanges": [
+    "**/__fixtures__/**",
+    "**/__tests__/**"
+  ]
 }
