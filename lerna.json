@@ -5,7 +5,7 @@
 		"utils/*",
 		"commands/*"
 	],
-	"version": "1.2.8",
+	"version": "1.2.9",
 	"ignoreChanges": [
 		"**/__fixtures__/**",
 		"**/__tests__/**"

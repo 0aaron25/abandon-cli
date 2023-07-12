@@ -1,9 +1,9 @@
 {
 	"name": "abandon-cli",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "abandon init --targetPath /Library/fontend_source/imooc/abandon-cli/commands/init/lib/index.js"
 	},
 	"keywords": [],
 	"author": "GraL Leung",

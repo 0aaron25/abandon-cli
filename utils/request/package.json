@@ -27,7 +27,8 @@
     "url": "https://github.com/0aaron25/abandon-cli/issues"
   },
   "dependencies": {
-    "axios": "^0.27.2"
+    "axios": "^0.27.2",
+    "@abandon-cli/log": "file:../log"
   },
   "gitHead": "2ce10ab97aeafff871112e6849602eae4875e825"
 }
