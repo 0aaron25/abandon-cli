@@ -49,7 +49,7 @@ class DeployCommand extends Command {
 		await this.checkNpmBuildCommand()
 
 		//执行指令
-		// await this.execCode(this.code, argumentsString)
+		await this.execCode(this.code, argumentsString)
 	}
 	async checkPathExist(path) {
 		return await fse.pathExists(path)
