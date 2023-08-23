@@ -14,7 +14,7 @@ const DEPLOY_NPM_PKG = 'abandon-deploy/lib/deploy.js'
 const pathExists = require('path-exists').sync
 const dotEnv = require('dotenv')
 const deployPromt = {
-	name: 'type',
+	name: 'environment',
 	message: '请选择发布的环境',
 	type: 'list',
 	default: 'test',
@@ -23,12 +23,23 @@ const deployPromt = {
 		{ name: '正式服', value: 'production' },
 	],
 }
+const deployTypePromt = {
+	name: 'type',
+	message: '请选择发布的类型',
+	type: 'list',
+	default: 'h5',
+	choices: [
+		{ name: 'h5', value: 'h5' },
+		{ name: 'voss', value: 'voss' },
+	],
+}
+
 const processPath = process.cwd()
 const homeDirPath = homedir()
 class DeployCommand extends Command {
 	async prepare() {
 		//获取本地env文件服务器密码
-		this.checkUserHomeServerPassword()
+		await this.getUserHomeServerPassword()
 
 		// 生成参数
 		let argumentsString = ''
@@ -68,12 +79,14 @@ class DeployCommand extends Command {
 		}
 
 		// 打包文件
-		await exec('npm', ['run', 'build'], {
-			cwd: processPath,
-			stdio: 'inherit',
-		}).catch((err) => {
-			throw new Error('打包文件失败～')
-		})
+		try {
+			await exec('npm', ['run', 'build'], {
+				cwd: processPath,
+				stdio: 'inherit',
+			})
+		} catch (error) {
+			throw new Error(`打包失败,请检查代码后再次尝试打包～`)
+		}
 	}
 	loadEnvFile(path) {
 		return dotEnv.config({
@@ -82,14 +95,33 @@ class DeployCommand extends Command {
 	}
 	async LoadLocalServerInfo() {
 		//获取本地服务器信息
-		const { type } = await inquirer.prompt(deployPromt)
+		const { environment } = await inquirer.prompt(deployPromt)
+
+		if (this.type == 'h5') {
+			this.passward = this.userHomeInfo['SERVER_PASSWARD']
+		} else {
+			// prettier-ignore
+			this.passward = environment === 'production' ? this.userHomeInfo['VOSS_PRO_PASSWARD'] : this.userHomeInfo['VOSS_DEV_PASSWARD']
+		}
+
+		if (!this.passward) {
+			throw new Error(
+				`请在${homeDirPath}创建.env文件配置服务器密码,字段名为${
+					this.type == 'h5' ? 'SERVER_PASSWARD' : 'VOSS_PRO_PASSWARD | VOSS_DEV_PASSWARD'
+				}`,
+			)
+		}
+
 		const deployPath = path.resolve(pkgDir(__filename), 'node_modules', DEPLOY_NPM_PKG)
+		this.environment = environment
 		this.code = deployPath
 		this.dotEnvPath = path.resolve(processPath, '.env')
-		if (type == 'production') {
+
+		if (environment == 'production') {
 			this.code += ' production'
 			this.dotEnvPath = path.resolve(processPath, '.env.production')
 		}
+
 		if (!(await this.checkPathExist(this.dotEnvPath))) {
 			throw new Error(`${this.dotEnvPath}不存在`)
 		}
@@ -114,7 +146,7 @@ class DeployCommand extends Command {
 		}
 	}
 	async execCode(code, argumentsString) {
-		exec(`echo ${this.userHomeInfo.SERVER_PASSWARD} | node ${code} ${argumentsString} `, {
+		exec(`echo ${this.passward} | node ${code} ${argumentsString} `, {
 			cwd: processPath,
 			stdio: 'inherit',
 			shell: true,
@@ -124,13 +156,16 @@ class DeployCommand extends Command {
 			}
 		})
 	}
-	checkUserHomeServerPassword() {
+	async getUserHomeServerPassword() {
+		const { type } = await inquirer.prompt(deployTypePromt)
+
+		this.type = type
+
 		const userHomeDevFilePath = path.resolve(homeDirPath, '.env')
+
 		const { parsed: userHomeInfo } = this.loadEnvFile(userHomeDevFilePath)
+
 		this.userHomeInfo = userHomeInfo
-		if (!userHomeInfo.SERVER_PASSWARD) {
-			throw new Error(`请在${homeDirPath}创建.env文件配置服务器密码,字段名为SERVER_PASSWARD`)
-		}
 	}
 
 	init() {}
