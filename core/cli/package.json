@@ -23,7 +23,6 @@
 		"access": "public"
 	},
 	"dependencies": {
-		"@abandon-cli/deploy": "file:../../commands/deploy",
 		"@abandon-cli/exec": "^1.2.6",
 		"@abandon-cli/get-npm-info": "^1.0.21",
 		"@abandon-cli/init": "file:../../commands/init",
