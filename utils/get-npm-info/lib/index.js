@@ -29,7 +29,7 @@ function getNpmInfo(pkgName, registry) {
 }
 
 //获取默认npm源
-function getDefaultRegistry(isOriginal = false) {
+function getDefaultRegistry(isOriginal = true) {
 	return isOriginal
 		? "https://registry.npmjs.org"
 		: "https://registry.npm.taobao.org"

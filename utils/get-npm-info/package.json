@@ -1,6 +1,6 @@
 {
 	"name": "@abandon-cli/get-npm-info",
-	"version": "1.0.21",
+	"version": "1.1.0",
 	"description": "get npm package info ",
 	"author": "liangjiahao <562330458@qq.com>",
 	"homepage": "https://github.com/0aaron25/abandon-cli#readme",
