@@ -1,6 +1,6 @@
 {
 	"name": "@abandon-cli/core",
-	"version": "1.2.16",
+	"version": "1.2.17",
 	"description": "abandon cli core",
 	"author": "liangjiahao <562330458@qq.com>",
 	"homepage": "",
@@ -23,9 +23,9 @@
 		"access": "public"
 	},
 	"dependencies": {
-		"@abandon-cli/exec": "^1.2.16",
+		"@abandon-cli/exec": "^1.2.17",
 		"@abandon-cli/get-npm-info": "latest",
-		"@abandon-cli/init": "^1.2.16",
+		"@abandon-cli/init": "^1.2.17",
 		"@abandon-cli/log": "^1.0.11",
 		"@babel/core": "^7.18.5",
 		"@babel/preset-env": "^7.18.2",
