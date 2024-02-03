@@ -24,7 +24,7 @@
 	},
 	"dependencies": {
 		"@abandon-cli/exec": "^1.2.16",
-		"@abandon-cli/get-npm-info": "^1.2.16",
+		"@abandon-cli/get-npm-info": "latest",
 		"@abandon-cli/init": "^1.2.16",
 		"@abandon-cli/log": "^1.0.11",
 		"@babel/core": "^7.18.5",
