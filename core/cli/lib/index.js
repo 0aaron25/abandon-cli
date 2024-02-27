@@ -15,24 +15,7 @@ const program = new Command()
 
 
 
-/**
- * @description 检查是否需要更新
- */
-async function checkGlobalUpdate() {
-	log.notice("checkGlobalUpdate")
-	const { getNpmSemverVersion } = require("@abandon-cli/get-npm-info")
-	const baseVersion = pkg.version
-	const pkgName = pkg.name
-	const lastestVersion = await getNpmSemverVersion(baseVersion, pkgName)
-	if (lastestVersion && semver.gt(lastestVersion, baseVersion)) {
-		log.warn(
-			color.yellow(`检查到${pkgName}有新版本，请及时更新
-	     当前版本为${baseVersion},最新版本为${lastestVersion}
-	     安装命令为：npm install -g ${pkgName}	
-		`)
-		)
-	}
-}
+
 /**
  * @description 检查环境变量
  */
@@ -145,7 +128,6 @@ async function prepare() {
 	checkRoot()
 	checkUserHome()
 	checkEnv()
-	await checkGlobalUpdate()
 }
 
 async function core() {
