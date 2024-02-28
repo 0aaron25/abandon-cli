@@ -123,7 +123,7 @@ function registerCommand() {
 	}
 }
 
-async function prepare() {
+ function prepare() {
 	checkPkgVersion()
 	checkRoot()
 	checkUserHome()
@@ -132,7 +132,7 @@ async function prepare() {
 
 async function core() {
 	try {
-		await prepare()
+		prepare()
 		registerCommand()
 	} catch (error) {
 		log.error(error.message)
